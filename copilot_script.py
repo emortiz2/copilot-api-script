@@ -19,7 +19,8 @@ headers = {
 # org: SquareTrade **REQUIRED**
 # team_slug: name of team name
 ORG = 'SquareTrade'
-PATH = f'https://api.github.com/orgs/{ORG}/copilot/metrics'
+TEAM_SLUG = 'SquareTrade-Eng'
+PATH = f'https://api.github.com/orgs/{ORG}/team/{TEAM_SLUG}/copilot/metrics'
 
 # Query parameters:
 # since: usage metrics since this date (YYYY-MM-DD) ** max 28 days
@@ -28,7 +29,7 @@ PATH = f'https://api.github.com/orgs/{ORG}/copilot/metrics'
 # per_page: number of days of metrics to display per page ** max 28 days
 DATE = date.today() - timedelta(days=1)
 params = {
-    'since': DATE,
+    # 'since': DATE,
 }
 try:
     response = requests.get(PATH, headers=headers, params=params)
@@ -44,6 +45,6 @@ if(response.status_code != 200):
 if(response.status_code == 200):
     print('Success. Status code: ', response.status_code)
 
-outfile = './data/metric.json'
+outfile = './data/squaretrade-eng.json'
 with open(outfile, 'w') as f:
     json.dump(response.json(), f)
