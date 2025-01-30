@@ -2,10 +2,10 @@ import requests
 import os
 import json
 from dotenv import load_dotenv
+from datetime import date, timedelta
 
 load_dotenv()
 TOKEN = os.getenv("AUTH_TOKEN")
-ORG = 'SquareTrade'
 
 # Headers: 
 # Accept: application/vnd.github+json
@@ -18,6 +18,7 @@ headers = {
 # path parameters:
 # org: SquareTrade **REQUIRED**
 # team_slug: name of team name
+ORG = 'SquareTrade'
 PATH = f'https://api.github.com/orgs/{ORG}/copilot/metrics'
 
 # Query parameters:
@@ -25,8 +26,9 @@ PATH = f'https://api.github.com/orgs/{ORG}/copilot/metrics'
 # until: usage metrics until this date (YYYY-MM-DD) should not preceed the since date/ go into future
 # page: page number of the results to fetch
 # per_page: number of days of metrics to display per page ** max 28 days
+DATE = date.today() - timedelta(days=1)
 params = {
-    'since': '2025-01-27',
+    'since': DATE,
 }
 try:
     response = requests.get(PATH, headers=headers, params=params)
