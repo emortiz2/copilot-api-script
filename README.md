@@ -5,4 +5,3 @@
 2. Add a .env file  
     `cd ` into this directory  
     `echo "AUTH_TOKEN: {ACCESS TOKEN}" > .env`  
-3. run python or jupyter script  

@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,11 +28,20 @@ PATH = f'https://api.github.com/orgs/{ORG}/copilot/metrics'
 params = {
     'since': '2025-01-27',
 }
+try:
+    response = requests.get(PATH, headers=headers, params=params)
+except requests.exceptions.RequestException as e:
+    print('Error: ', e)
+    exit()
 
-response = requests.get(PATH, headers=headers, verify=False, params=params)
 
-print(response.json())
+if(response.status_code != 200):
+    print('Error: ', response.json())
+    exit()
 
-outfile = './data/metrics.json'
+if(response.status_code == 200):
+    print('Success. Status code: ', response.status_code)
+
+outfile = './data/metric.json'
 with open(outfile, 'w') as f:
-    f.write(response.json())
+    json.dump(response.json(), f)
