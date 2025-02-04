@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import date, timedelta
 
 load_dotenv()
-TOKEN = os.getenv("AUTH_TOKEN")
+TOKEN = os.getenv("GITHUB_TOKEN")
 
 # Headers: 
 # Accept: application/vnd.github+json
@@ -19,8 +19,9 @@ headers = {
 # org: SquareTrade **REQUIRED**
 # team_slug: name of team name
 ORG = 'SquareTrade'
-TEAM_SLUG = 'SquareTrade-Eng'
-PATH = f'https://api.github.com/orgs/{ORG}/team/{TEAM_SLUG}/copilot/metrics'
+# TEAM_SLUG = '/team/Copilot-test'
+TEAM_SLUG = ''
+PATH = f'https://api.github.com/orgs/{ORG}{TEAM_SLUG}/copilot/metrics'
 
 # Query parameters:
 # since: usage metrics since this date (YYYY-MM-DD) ** max 28 days
@@ -45,6 +46,8 @@ if(response.status_code != 200):
 if(response.status_code == 200):
     print('Success. Status code: ', response.status_code)
 
-outfile = './data/squaretrade-eng.json'
+data = response.json()
+outfile = './data/1-31.json'
 with open(outfile, 'w') as f:
     json.dump(response.json(), f)
+
